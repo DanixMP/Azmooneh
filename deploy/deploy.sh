@@ -104,7 +104,7 @@ echo -e "${GREEN}✓ Nginx configured${NC}"
 
 echo -e "${YELLOW}Step 9: Setting up SSL with Let's Encrypt...${NC}"
 sudo apt install -y certbot python3-certbot-nginx
-sudo certbot --nginx -d $DOMAIN -d www.$DOMAIN -d $API_DOMAIN --non-interactive --agree-tos --email admin@$DOMAIN
+sudo certbot --nginx -d $DOMAIN -d $API_DOMAIN --non-interactive --agree-tos --email admin@$DOMAIN
 
 echo -e "${GREEN}✓ SSL certificates installed${NC}"
 
