@@ -61,7 +61,7 @@ pip install gunicorn psycopg2-binary
 echo -e "${GREEN}✓ Python dependencies installed${NC}"
 
 echo -e "${YELLOW}Step 5: Building frontend...${NC}"
-npm install
+npm install --include=dev
 npx vite build
 
 # Create frontend directory
