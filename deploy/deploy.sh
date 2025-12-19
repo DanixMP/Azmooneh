@@ -62,7 +62,7 @@ echo -e "${GREEN}✓ Python dependencies installed${NC}"
 
 echo -e "${YELLOW}Step 5: Building frontend...${NC}"
 npm install
-npm run build
+npx vite build
 
 # Create frontend directory
 sudo mkdir -p $APP_DIR/frontend
