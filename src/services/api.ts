@@ -197,6 +197,31 @@ export const api = {
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('token');
   },
+
+  // SWOT Analysis methods
+  async getSWOTQuestions() {
+    const response = await this.get('/api/swot/questions/');
+    if (!response.ok) {
+      throw new Error('Failed to get SWOT questions');
+    }
+    return response.json();
+  },
+
+  async submitSWOTAnalysis(answers: any) {
+    const response = await this.post('/api/swot/submissions/', answers);
+    if (!response.ok) {
+      throw new Error('Failed to submit SWOT analysis');
+    }
+    return response.json();
+  },
+
+  async getSWOTSubmissions() {
+    const response = await this.get('/api/swot/submissions/');
+    if (!response.ok) {
+      throw new Error('Failed to get SWOT submissions');
+    }
+    return response.json();
+  },
 };
 
 // API Endpoints
