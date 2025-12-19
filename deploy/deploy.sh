@@ -62,6 +62,7 @@ echo -e "${GREEN}✓ Python dependencies installed${NC}"
 
 echo -e "${YELLOW}Step 5: Building frontend...${NC}"
 npm install --include=dev
+chmod +x node_modules/.bin/vite
 npx vite build
 
 # Create frontend directory
