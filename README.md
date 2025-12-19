@@ -118,7 +118,6 @@ npm run dev
 **استاد**: prof_test / prof123  
 **دانشجو**: STU001 / student123
 
-طراحی اولیه: https://www.figma.com/design/Fa5eY7F4urS4ULR7BKBkn0/Azmooneh-Exam-App-Design
 
 ---
 
