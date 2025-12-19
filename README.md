@@ -1,135 +1,186 @@
+# آزمونه - سیستم آزمون و تحلیل SWOT
 
-# Azmooneh Exam App
+سیستم جامع آزمون آنلاین و تحلیل SWOT با بکند Django REST و فرانت‌اند React
 
-Full-stack Exam and Test App with Django REST backend and React frontend.
+## 🚀 شروع سریع
 
-## 🚀 Quick Start
-
-**Backend** (Terminal 1):
+**بکند** (ترمینال ۱):
 ```bash
 python manage.py runserver
 ```
-✅ Backend is currently running!
 
-**Frontend** (Terminal 2):
+**فرانت‌اند** (ترمینال ۲):
 ```bash
 npm run dev
 ```
 
-**Open**: http://localhost:5173
+**باز کردن**: http://localhost:5173
 
-**Important**: Clear browser storage first!
+**مهم**: ابتدا حافظه مرورگر را پاک کنید!
 ```javascript
-// In browser console (F12):
+// در کنسول مرورگر (F12):
 localStorage.clear();
 ```
 
-**✅ Authentication Fixed**: Now uses real API validation (no more hardcoded logins)
-**✅ UI Improved**: One question at a time, better navigation, fixed scrolling
+**تست اتصال**: روی دکمه "تست اتصال" در گوشه پایین راست کلیک کنید
 
-**Test Connection**: Click the "Connection Test" button in bottom-right corner
+## امکانات
 
-See `UI_IMPROVEMENTS.md` for UI changes and `EXAM_NAVIGATION_GUIDE.md` for how to use.
+### نقش‌های کاربری
+- **مدیر کل**: دسترسی ادمین (توسعه)
+- **استاد**: ایجاد آزمون، مدیریت سوالات، نمره‌دهی
+- **دانشجو**: شرکت در آزمون، مشاهده نتایج، تحلیل SWOT
 
-## Features
+### انواع سوالات آزمون
+1. **تک گزینه‌ای** - یک پاسخ صحیح
+2. **چند گزینه‌ای** - چند پاسخ صحیح
+3. **صحیح/غلط** - سوالات بولی
+4. **تشریحی** - پاسخ متنی (نمره‌دهی دستی)
 
-### User Roles
-- **Superuser**: Admin access (development)
-- **Professor**: Create exams, manage questions, grade submissions
-- **Student**: Take exams, view results
+### تحلیل SWOT
+- **نقاط قوت (Strengths)**: شناسایی توانمندی‌های دانشجو
+- **نقاط ضعف (Weaknesses)**: شناسایی نقاط قابل بهبود
+- **فرصت‌ها (Opportunities)**: فرصت‌های پیش رو
+- **تهدیدها (Threats)**: چالش‌ها و موانع
 
-### Question Types
-1. **Single Choice** - One correct answer
-2. **Multiple Choice** - Multiple correct answers  
-3. **True/False** - Boolean questions
-4. **Long Answer** - Text responses (manual grading)
-
-### Auto-Grading
-Objective questions (single, multiple, true/false) are auto-graded instantly.
-Long answers require manual grading by professors.
+### نمره‌دهی خودکار
+سوالات عینی (تک گزینه‌ای، چند گزینه‌ای، صحیح/غلط) به صورت خودکار نمره‌دهی می‌شوند.
+سوالات تشریحی نیاز به نمره‌دهی دستی توسط اساتید دارند.
 
 ---
 
-## Backend (Django)
+## بکند (Django)
 
-### Quick Start
+### شروع سریع
 ```bash
-# Install dependencies
+# نصب وابستگی‌ها
 pip install -r requirements.txt
 
-# Run migrations
+# اجرای مایگریشن‌ها
 python manage.py migrate
 
-# Create test users and sample exam
+# ایجاد کاربران تستی و آزمون نمونه
 python create_test_users.py
 python create_sample_exam.py
+python create_sample_swot.py
 
-# Start server
+# راه‌اندازی سرور
 python manage.py runserver
 ```
 
-### Test Users
-- **Superuser**: admin / admin123
-- **Professor**: prof_test / prof123
-- **Student**: STU001 / student123
+### کاربران تستی
+- **مدیر کل**: admin / admin123
+- **استاد**: prof_test / prof123
+- **دانشجو**: STU001 / student123
 
 ### API Endpoints
-- `POST /api/auth/student/signup/` - Student registration
-- `POST /api/auth/professor/login/` - Professor login
-- `POST /api/exams/` - Create exam (professor)
-- `POST /api/student-exams/start_exam/` - Start exam (student)
-- `POST /api/student-exams/{id}/submit_answer/` - Submit answer
-- `POST /api/student-exams/{id}/submit_exam/` - Submit exam
 
-See `backend/README.md` and `backend/API_DOCS.md` for complete documentation.
+#### احراز هویت
+- `POST /api/auth/student/signup/` - ثبت‌نام دانشجو
+- `POST /api/auth/professor/login/` - ورود استاد
+- `POST /api/auth/student/login/` - ورود دانشجو
 
-### Test API
-```bash
-# Make sure server is running first
-python test_api.py
-```
+#### آزمون‌ها
+- `POST /api/exams/` - ایجاد آزمون (استاد)
+- `GET /api/exams/` - لیست آزمون‌ها
+- `POST /api/student-exams/start_exam/` - شروع آزمون (دانشجو)
+- `POST /api/student-exams/{id}/submit_answer/` - ثبت پاسخ
+- `POST /api/student-exams/{id}/submit_exam/` - ارسال آزمون
+
+#### تحلیل SWOT
+- `GET /api/swot/questions/` - دریافت سوالات SWOT
+- `POST /api/swot/submissions/` - ارسال تحلیل SWOT
+- `GET /api/swot/submissions/` - مشاهده تحلیل‌های ارسالی
 
 ---
 
-## Frontend (React + TypeScript)
+## فرانت‌اند (React + TypeScript)
 
-### Quick Start
+### شروع سریع
 ```bash
-# Install dependencies
-npm i
+# نصب وابستگی‌ها
+npm install
 
-# Start development server (make sure backend is running first)
+# راه‌اندازی سرور توسعه (ابتدا بکند را اجرا کنید)
 npm run dev
 ```
 
-### Features
-- ✅ Professor login and exam management
-- ✅ Student signup/login and exam taking
-- ✅ Create exams with 4 question types
-- ✅ Real-time exam timer
-- ✅ Auto-grading for objective questions
-- ✅ Responsive Persian (RTL) UI
+### امکانات
+- ✅ ورود استاد و مدیریت آزمون‌ها
+- ✅ ثبت‌نام/ورود دانشجو و شرکت در آزمون
+- ✅ ایجاد آزمون با ۴ نوع سوال
+- ✅ تایمر زنده آزمون
+- ✅ نمره‌دهی خودکار سوالات عینی
+- ✅ تحلیل SWOT با نمودارهای تعاملی
+- ✅ رابط کاربری فارسی و ریسپانسیو (RTL)
 
-### Test Credentials
-**Professor**: prof_test / prof123  
-**Student**: STU001 / student123
+### اطلاعات ورود تستی
+**استاد**: prof_test / prof123  
+**دانشجو**: STU001 / student123
 
-See `FRONTEND_GUIDE.md` for detailed documentation.
-
-Original design: https://www.figma.com/design/Fa5eY7F4urS4ULR7BKBkn0/Azmooneh-Exam-App-Design
+طراحی اولیه: https://www.figma.com/design/Fa5eY7F4urS4ULR7BKBkn0/Azmooneh-Exam-App-Design
 
 ---
 
-## Project Structure
+## ساختار پروژه
 
 ```
-├── backend/              # Django project settings
-├── accounts/             # User authentication & roles
-├── exams/                # Exam management & grading
-├── src/                  # React frontend
-├── create_test_users.py  # Setup test users
-├── create_sample_exam.py # Create sample exam
-├── test_api.py           # API testing script
-└── requirements.txt      # Python dependencies
+├── backend/              # تنظیمات پروژه Django
+├── accounts/             # احراز هویت و نقش‌های کاربری
+├── exams/                # مدیریت آزمون و نمره‌دهی
+├── swot/                 # سیستم تحلیل SWOT
+├── student_messages/     # سیستم پیام‌رسانی
+├── src/                  # فرانت‌اند React
+│   ├── components/       # کامپوننت‌های React
+│   ├── contexts/         # Context API
+│   └── services/         # سرویس‌های API
+├── create_test_users.py  # ایجاد کاربران تستی
+├── create_sample_exam.py # ایجاد آزمون نمونه
+├── create_sample_swot.py # ایجاد سوالات SWOT نمونه
+└── requirements.txt      # وابستگی‌های Python
 ```
+
+---
+
+## فناوری‌های استفاده شده
+
+### بکند
+- Django 5.1
+- Django REST Framework
+- SQLite Database
+- CORS Headers
+
+### فرانت‌اند
+- React 18
+- TypeScript
+- Vite
+- Tailwind CSS
+- Recharts (نمودارها)
+- Shadcn/ui (کامپوننت‌ها)
+
+---
+
+## توسعه‌دهندگان
+
+برای مشارکت در پروژه:
+
+1. Fork کنید
+2. برنچ جدید بسازید (`git checkout -b feature/AmazingFeature`)
+3. تغییرات را commit کنید (`git commit -m 'Add some AmazingFeature'`)
+4. Push کنید (`git push origin feature/AmazingFeature`)
+5. Pull Request باز کنید
+
+---
+
+## مستندات بیشتر
+
+- `QUICK_START.md` - راهنمای شروع سریع
+- `START_APP.md` - راهنمای راه‌اندازی کامل
+- `TROUBLESHOOTING.md` - رفع مشکلات رایج
+
+---
+
+## لایسنس
+
+این پروژه تحت لایسنس MIT منتشر شده است.
   
