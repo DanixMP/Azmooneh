@@ -8,27 +8,26 @@ django.setup()
 
 from swot.models import SWOTQuestion
 
-# Create SWOT questions
+# Create SWOT questions (Persian)
 questions = [
-    # Strengths
-    {'category': 'strength', 'question_text': 'What are your strongest academic subjects?'},
-    {'category': 'strength', 'question_text': 'What skills do you excel at?'},
-    {'category': 'strength', 'question_text': 'What positive feedback have you received from teachers?'},
+    # نقاط قوت (Strengths)
+    {'category': 'strength', 'question_text': 'نقاط قوت شما چیست؟ توانایی‌ها یا مهارت‌هایی که شما را از دیگران متمایز می‌کند؟'},
+    {'category': 'strength', 'question_text': 'چه مهارت‌های برجسته‌ای دارید؟'},
+    {'category': 'strength', 'question_text': 'نظر دیگران درباره نقاط قوت شما چیست؟'},
     
-    # Weaknesses
-    {'category': 'weakness', 'question_text': 'Which subjects do you find most challenging?'},
-    {'category': 'weakness', 'question_text': 'What areas need improvement in your studies?'},
-    {'category': 'weakness', 'question_text': 'What study habits would you like to change?'},
+    # نقاط ضعف (Weaknesses)
+    {'category': 'weakness', 'question_text': 'نقاط ضعف یا محدودیت‌های خود را لیست کنید.'},
+    {'category': 'weakness', 'question_text': 'آیا عادات نامطلوبی دارید؟ اگر بله، کدام‌ها؟'},
+    {'category': 'weakness', 'question_text': 'نظر دیگران درباره نقاط ضعف شما چیست؟'},
     
-    # Opportunities
-    {'category': 'opportunity', 'question_text': 'What resources are available to help you improve?'},
-    {'category': 'opportunity', 'question_text': 'What new learning opportunities interest you?'},
-    {'category': 'opportunity', 'question_text': 'How can you leverage your strengths for better results?'},
+    # فرصت‌ها (Opportunities)
+    {'category': 'opportunity', 'question_text': 'چه فرصت‌هایی در محیط یا اطراف شما وجود دارد که می‌توانید از آن‌ها برای رشد استفاده کنید؟'},
+    {'category': 'opportunity', 'question_text': 'چه مهارت‌های جدیدی می‌توانید یاد بگیرید تا مزیت رقابتی پیدا کنید؟'},
     
-    # Threats
-    {'category': 'threat', 'question_text': 'What obstacles might prevent you from achieving your goals?'},
-    {'category': 'threat', 'question_text': 'What external factors affect your academic performance?'},
-    {'category': 'threat', 'question_text': 'What distractions do you need to manage?'},
+    # تهدیدها (Threats)
+    {'category': 'threat', 'question_text': 'چه تهدیدهایی ممکن است مانع پیشرفت شما شوند؟'},
+    {'category': 'threat', 'question_text': 'آیا ویژگی‌های شخصی شما ممکن است رسیدن به اهداف را محدود کنند؟'},
+    {'category': 'threat', 'question_text': 'چه موانع خارجی (مثل رقابت یا تغییرات تکنولوژی) ممکن است شما را تهدید کنند؟'},
 ]
 
 for q in questions:
