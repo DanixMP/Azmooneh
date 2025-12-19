@@ -41,7 +41,7 @@ export interface StudentExam {
 export interface SWOTQuestion {
   id: number;
   category: 'strength' | 'weakness' | 'opportunity' | 'threat';
-  text: string;
+  question_text: string;
 }
 
 export interface SWOTAnalysis {
