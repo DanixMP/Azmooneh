@@ -6,11 +6,11 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 django.setup()
 
 from django.contrib.auth import authenticate
-from accounts.models import CustomUser
+from accounts.models import User
 
 # Check if user exists
 try:
-    user = CustomUser.objects.get(username='403663934')
+    user = User.objects.get(username='403663934')
     print(f'✅ User found: {user.username}, role: {user.role}')
     print(f'   Is active: {user.is_active}')
     print(f'   Has password: {user.has_usable_password()}')
@@ -22,5 +22,5 @@ try:
     else:
         print('❌ Authentication failed - password incorrect')
         
-except CustomUser.DoesNotExist:
+except User.DoesNotExist:
     print('❌ User not found')
