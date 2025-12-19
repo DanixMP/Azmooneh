@@ -10,7 +10,8 @@ export function ConnectionTest() {
 
     try {
       // Test 1: Basic fetch
-      const response = await fetch('http://localhost:8000/api/auth/professor/login/', {
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+      const response = await fetch(`${API_URL}/api/auth/professor/login/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -29,7 +30,8 @@ export function ConnectionTest() {
         setResult(`❌ FAILED!\n\nStatus: ${response.status}\n\nResponse:\n${JSON.stringify(data, null, 2)}`);
       }
     } catch (error: any) {
-      setResult(`❌ ERROR!\n\n${error.message}\n\nMake sure:\n1. Backend is running: python manage.py runserver\n2. Backend is on http://localhost:8000\n3. CORS is configured correctly`);
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+      setResult(`❌ ERROR!\n\n${error.message}\n\nMake sure:\n1. Backend is running: python manage.py runserver\n2. Backend is on ${API_URL}\n3. CORS is configured correctly`);
     } finally {
       setLoading(false);
     }

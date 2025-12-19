@@ -171,11 +171,37 @@ npm run dev
 
 ---
 
+## 🌐 استقرار (Deployment)
+
+### استقرار روی VPS
+
+پروژه آماده استقرار روی **roydadapp.ir** است.
+
+**راهنمای سریع:**
+```powershell
+# در Windows PowerShell
+.\deploy\deploy-windows.ps1
+```
+
+**مستندات استقرار:**
+- `DEPLOYMENT_CHECKLIST.md` - چک‌لیست گام به گام
+- `deploy/WINDOWS_DEPLOY.md` - راهنمای استقرار در Windows
+- `deploy/DEPLOYMENT_GUIDE.md` - راهنمای کامل استقرار
+- `deploy/QUICK_DEPLOY.md` - شروع سریع
+
+**پس از استقرار:**
+- Frontend: https://roydadapp.ir
+- Backend API: https://api.roydadapp.ir
+- Admin Panel: https://api.roydadapp.ir/admin
+
+---
+
 ## مستندات بیشتر
 
 - `QUICK_START.md` - راهنمای شروع سریع
 - `START_APP.md` - راهنمای راه‌اندازی کامل
 - `TROUBLESHOOTING.md` - رفع مشکلات رایج
+- `DEPLOYMENT_CHECKLIST.md` - راهنمای استقرار
 
 ---
 
