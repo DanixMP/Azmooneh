@@ -69,7 +69,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const loginStudent = async (studentId: string, password: string): Promise<boolean> => {
     try {
       // Students login with their student_id as username
-      const response = await api.professorLogin(studentId, password);
+      const response = await api.studentLogin(studentId, password);
       
       if (response.user.role !== 'student') {
         throw new Error('Not a student account');
