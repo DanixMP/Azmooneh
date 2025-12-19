@@ -208,7 +208,7 @@ export const api = {
   },
 
   async submitSWOTAnalysis(answers: any) {
-    const response = await this.post('/api/swot/submissions/', answers);
+    const response = await this.post('/api/swot/analyses/submit/', { answers });
     if (!response.ok) {
       throw new Error('Failed to submit SWOT analysis');
     }
@@ -216,7 +216,7 @@ export const api = {
   },
 
   async getSWOTSubmissions() {
-    const response = await this.get('/api/swot/submissions/');
+    const response = await this.get('/api/swot/analyses/');
     if (!response.ok) {
       throw new Error('Failed to get SWOT submissions');
     }
@@ -243,8 +243,9 @@ export const endpoints = {
   },
   swot: {
     questions: '/api/swot/questions/',
-    submissions: '/api/swot/submissions/',
-    detail: (id: number) => `/api/swot/submissions/${id}/`,
+    analyses: '/api/swot/analyses/',
+    submit: '/api/swot/analyses/submit/',
+    detail: (id: number) => `/api/swot/analyses/${id}/`,
   },
   messages: {
     list: '/api/messages/',
