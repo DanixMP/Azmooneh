@@ -1,19 +1,42 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ChevronRight, ChevronLeft, Check, Brain } from 'lucide-react';
+import { ChevronRight, ChevronLeft, Check, Brain, Zap } from 'lucide-react';
 import { api, SWOTQuestion } from '../services/api';
+import { SWOTSuccessModal } from './SWOTSuccessModal';
+import { useAuth } from '../contexts/AuthContext';
 
 interface SWOTAnalysisProps {
   onComplete: () => void;
+  onViewResults?: (analysisId: number) => void;
 }
 
-export function SWOTAnalysis({ onComplete }: SWOTAnalysisProps) {
+export function SWOTAnalysis({ onComplete, onViewResults }: SWOTAnalysisProps) {
+  const { student } = useAuth();
   const [questions, setQuestions] = useState<SWOTQuestion[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<{ [key: number]: string }>({});
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [submittedAnalysis, setSubmittedAnalysis] = useState<any>(null);
+
+  // Pre-written answers for quick testing (only for user 403663934)
+  const quickAnswers: { [key: string]: string } = {
+    'strength': 'من در حل مسائل پیچیده مهارت دارم و می‌توانم به سرعت یاد بگیرم. همچنین در کار تیمی عملکرد خوبی دارم و مسئولیت‌پذیر هستم.',
+    'weakness': 'گاهی اوقات در مدیریت زمان مشکل دارم و تمایل دارم کارها را به تعویق بیندازم. همچنین در برخی موارد اعتماد به نفس کافی ندارم.',
+    'opportunity': 'فرصت‌های یادگیری آنلاین زیادی وجود دارد که می‌توانم از آنها استفاده کنم. همچنین می‌توانم در پروژه‌های جدید شرکت کنم و تجربه کسب کنم.',
+    'threat': 'رقابت شدید در بازار کار و تغییرات سریع تکنولوژی می‌تواند چالش‌برانگیز باشد. همچنین فشار زمانی در تحصیل و کار می‌تواند استرس‌زا باشد.'
+  };
+
+  const fillQuickAnswers = () => {
+    const newAnswers: { [key: number]: string } = {};
+    questions.forEach(q => {
+      newAnswers[q.id] = quickAnswers[q.category] || 'پاسخ نمونه برای تست سریع';
+    });
+    setAnswers(newAnswers);
+    setError('');
+  };
 
   useEffect(() => {
     loadQuestions();
@@ -66,12 +89,27 @@ export function SWOTAnalysis({ onComplete }: SWOTAnalysisProps) {
         answer_text: answers[q.id],
       }));
 
-      await api.submitSWOTAnalysis(formattedAnswers);
-      onComplete();
+      const result = await api.submitSWOTAnalysis(formattedAnswers);
+      setSubmittedAnalysis(result);
+      setShowSuccessModal(true);
     } catch (err: any) {
       setError(err.message);
-    } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setShowSuccessModal(false);
+    setSubmitting(false);
+    onComplete();
+  };
+
+  const handleViewDetails = () => {
+    setShowSuccessModal(false);
+    if (submittedAnalysis && onViewResults) {
+      onViewResults(submittedAnalysis.id);
+    } else {
+      onComplete();
     }
   };
 
@@ -113,11 +151,32 @@ export function SWOTAnalysis({ onComplete }: SWOTAnalysisProps) {
 
   return (
     <div className="max-w-4xl mx-auto">
+      {/* Success Modal */}
+      <SWOTSuccessModal
+        isOpen={showSuccessModal}
+        onClose={handleCloseModal}
+        onViewDetails={handleViewDetails}
+        analysis={submittedAnalysis}
+      />
+
       {/* Header */}
       <div className="mb-8">
-        <div className="flex items-center gap-3 mb-4">
-          <Brain className="w-8 h-8 text-purple-400" />
-          <h1 className="text-3xl text-white">تحلیل SWOT شخصی</h1>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <Brain className="w-8 h-8 text-purple-400" />
+            <h1 className="text-3xl text-white">تحلیل SWOT شخصی</h1>
+          </div>
+          {/* Quick Answer Button - Only for student ID 403663934 */}
+          {student?.studentId === '403663934' && (
+            <button
+              onClick={fillQuickAnswers}
+              className="flex items-center gap-2 px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg transition-colors text-sm"
+              title="پر کردن سریع پاسخ‌ها برای تست"
+            >
+              <Zap className="w-4 h-4" />
+              پاسخ سریع
+            </button>
+          )}
         </div>
         <p className="text-gray-400">
           به هر سوال با دقت پاسخ دهید. این تحلیل به شما کمک می‌کند نقاط قوت، ضعف، فرصت‌ها و تهدیدهای خود را بشناسید.
@@ -161,7 +220,7 @@ export function SWOTAnalysis({ onComplete }: SWOTAnalysisProps) {
             <span className={`inline-block px-3 py-1 rounded-full text-sm mb-4 ${getCategoryColor(currentQuestion.category)}`}>
               {getCategoryLabel(currentQuestion.category)}
             </span>
-            <h2 className="text-2xl text-white mb-2">
+            <h2 className="text-2xl text-white mb-2 break-words whitespace-normal leading-relaxed">
               {currentQuestion.question_text}
             </h2>
           </div>
