@@ -30,6 +30,13 @@ class SWOTAnalysis(models.Model):
     completed_at = models.DateTimeField(null=True, blank=True)
     is_completed = models.BooleanField(default=False)
     
+    # AI Analysis Results
+    ai_analyzed = models.BooleanField(default=False)
+    personality_type = models.CharField(max_length=100, blank=True)
+    overall_score = models.IntegerField(null=True, blank=True)
+    ai_summary = models.TextField(blank=True)
+    ai_results = models.JSONField(null=True, blank=True)  # Store full AI analysis
+    
     class Meta:
         ordering = ['-created_at']
         verbose_name_plural = 'SWOT Analyses'

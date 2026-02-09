@@ -23,8 +23,13 @@ class SWOTAnalysisSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = SWOTAnalysis
-        fields = ['id', 'student', 'student_name', 'created_at', 'completed_at', 'is_completed', 'answers']
-        read_only_fields = ['student', 'created_at', 'completed_at']
+        fields = [
+            'id', 'student', 'student_name', 'created_at', 'completed_at', 
+            'is_completed', 'answers', 'ai_analyzed', 'personality_type', 
+            'overall_score', 'ai_summary', 'ai_results'
+        ]
+        read_only_fields = ['student', 'created_at', 'completed_at', 'ai_analyzed', 
+                           'personality_type', 'overall_score', 'ai_summary', 'ai_results']
     
     def get_student_name(self, obj):
         """Get student name from full_name field or username"""

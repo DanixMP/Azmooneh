@@ -5,15 +5,10 @@ from .settings import *
 import os
 
 # Security Settings
-DEBUG = False
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', SECRET_KEY)
 
-ALLOWED_HOSTS = [
-    'roydadapp.ir',
-    'www.roydadapp.ir',
-    'api.roydadapp.ir',
-    '193.151.154.135',
-]
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'roydadapp.ir,www.roydadapp.ir,api.roydadapp.ir').split(',')
 
 # CORS Settings for production
 CORS_ALLOWED_ORIGINS = [
@@ -23,10 +18,12 @@ CORS_ALLOWED_ORIGINS = [
     "http://www.roydadapp.ir",
 ]
 
-# Security Headers
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+CORS_ALLOW_CREDENTIALS = True
+
+# Security Headers (only enable SSL redirect when SSL is ready)
+SECURE_SSL_REDIRECT = os.environ.get('SECURE_SSL_REDIRECT', 'False') == 'True'
+SESSION_COOKIE_SECURE = os.environ.get('SESSION_COOKIE_SECURE', 'False') == 'True'
+CSRF_COOKIE_SECURE = os.environ.get('CSRF_COOKIE_SECURE', 'False') == 'True'
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
@@ -37,8 +34,16 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-# Database - PostgreSQL for production (recommended)
-# Uncomment and configure if using PostgreSQL
+# Database - Using SQLite for simplicity (can switch to PostgreSQL later)
+# SQLite is fine for small to medium applications
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+# Optional: PostgreSQL configuration (uncomment to use)
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
@@ -49,3 +54,23 @@ MEDIA_URL = '/media/'
 #         'PORT': os.environ.get('DB_PORT', '5432'),
 #     }
 # }
+
+# Logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'django_errors.log'),
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+}

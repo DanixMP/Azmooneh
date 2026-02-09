@@ -63,7 +63,7 @@ export function Footer() {
               </li>
               <li className="flex items-start gap-3 text-gray-400 text-sm">
                 <MapPin className="w-4 h-4 text-purple-400 mt-1" />
-                <span>ارومیه، ۳ کیاومتری جاده سلماس،دانشگاه آزاد اسلامی</span>
+                <span>IRAN🤍🖤🤍</span>
               </li>
             </ul>
           </div>
@@ -73,7 +73,7 @@ export function Footer() {
         <div className="mt-8 pt-6 border-t border-slate-700/50">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-gray-400 text-sm text-center sm:text-right">
-              © ساخته شده با 🤍 برای کلاس
+              ساخته شده با 🤍
             </p>
             <div className="flex items-center gap-4">
 
