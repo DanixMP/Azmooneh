@@ -37,8 +37,8 @@ export function Header({ onMenuClick, showMenuButton = false }: HeaderProps) {
           {/* Right Side Info */}
           <div className="hidden sm:flex items-center gap-4">
             <div className="text-right">
-              <p className="text-sm text-gray-400">دانشگاه آزاد اسلامی واحد ارومیه</p>
-              <p className="text-xs text-gray-500">Islamic Azad University Urmia Branch</p>
+              <p className="text-sm text-gray-400">تحلیل تست SWOT با استفاده از هوش مصنوعی</p>
+              <p className="text-xs text-gray-500">SWOT ANLYSE USING AI</p>
             </div>
           </div>
         </div>
