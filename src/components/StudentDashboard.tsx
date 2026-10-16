@@ -10,19 +10,13 @@ import { api } from '../services/api';
 import {
   Home,
   FileText,
-  ClipboardList,
-  Award,
   User,
   LogOut,
-  Clock,
-  CheckCircle,
-  BookOpen,
-  Menu,
   X,
   Brain,
 } from 'lucide-react';
 
-type MenuItem = 'dashboard' | 'active-exams' | 'swot' | 'results' | 'profile';
+type MenuItem = 'dashboard' | 'active-exams' | 'swot' | 'profile';
 
 export function StudentDashboard() {
   const { student, logout } = useAuth();
@@ -37,7 +31,6 @@ export function StudentDashboard() {
     { id: 'dashboard' as MenuItem, icon: Home, label: 'داشبورد', color: 'indigo' },
     { id: 'active-exams' as MenuItem, icon: FileText, label: 'آزمون‌های فعال', color: 'purple' },
     { id: 'swot' as MenuItem, icon: Brain, label: 'تحلیل SWOT', color: 'green' },
-    { id: 'results' as MenuItem, icon: Award, label: 'نتایج و نمرات', color: 'pink' },
     { id: 'profile' as MenuItem, icon: User, label: 'پروفایل', color: 'blue' },
   ];
 
@@ -47,11 +40,7 @@ export function StudentDashboard() {
     { id: 3, title: 'کوییز برنامه‌نویسی', date: '1403/09/30', time: '09:00', duration: '45 دقیقه', status: 'upcoming' },
   ];
 
-  const mockResults = [
-    { id: 1, title: 'آزمون پایان‌ترم ریاضی', score: 18.5, total: 20, date: '1403/08/15' },
-    { id: 2, title: 'آزمون فیزیک ۱', score: 16, total: 20, date: '1403/08/10' },
-    { id: 3, title: 'کوییز شیمی', score: 19, total: 20, date: '1403/08/05' },
-  ];
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-gray-950 flex flex-col" dir="rtl">
@@ -185,7 +174,7 @@ export function StudentDashboard() {
                       setActiveMenu('swot');
                       setSWOTView('new');
                     }}
-                    className="px-16 py-6 bg-gradient-to-l from-purple-600 to-pink-600 text-white text-2xl rounded-2xl hover:shadow-2xl hover:scale-105 transition-all font-medium"
+                    className="px-48 py-16 bg-gradient-to-l from-purple-600 to-pink-600 text-white text-3xl rounded-[3rem] hover:shadow-2xl hover:scale-105 transition-all font-medium"
                   >
                     شروع تحلیل SWOT
                   </button>
@@ -317,54 +306,12 @@ export function StudentDashboard() {
                   onComplete={() => {
                     setSWOTView('history');
                   }}
+                  onViewResults={(analysisId) => {
+                    // Navigate to history view which will show the results
+                    setSWOTView('history');
+                  }}
                 />
               )}
-            </motion.div>
-          )}
-
-          {/* Results View */}
-          {activeMenu === 'results' && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <h1 className="text-3xl text-white mb-8">نتایج و نمرات</h1>
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl overflow-hidden">
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead className="bg-slate-900/50">
-                      <tr>
-                        <th className="px-6 py-4 text-right text-gray-300">عنوان آزمون</th>
-                        <th className="px-6 py-4 text-right text-gray-300">تاریخ</th>
-                        <th className="px-6 py-4 text-right text-gray-300">نمره</th>
-                        <th className="px-6 py-4 text-right text-gray-300">وضعیت</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {mockResults.map((result, index) => (
-                        <motion.tr
-                          key={result.id}
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: index * 0.1 }}
-                          className="border-t border-slate-700/50 hover:bg-slate-700/30 transition-colors"
-                        >
-                          <td className="px-6 py-4 text-white">{result.title}</td>
-                          <td className="px-6 py-4 text-gray-400">{result.date}</td>
-                          <td className="px-6 py-4">
-                            <span className="text-green-400">{result.score} / {result.total}</span>
-                          </td>
-                          <td className="px-6 py-4">
-                            <span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm">
-                              قبول
-                            </span>
-                          </td>
-                        </motion.tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
             </motion.div>
           )}
 

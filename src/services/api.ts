@@ -49,12 +49,32 @@ export interface SWOTAnalysis {
   student: number;
   created_at: string;
   answers: SWOTAnswer[];
+  ai_analyzed: boolean;
+  personality_type: string;
+  overall_score: number;
+  ai_summary: string;
+  ai_results: {
+    personality_type: string;
+    overall_score: number;
+    traits: {
+      confidence: number;
+      self_awareness: number;
+      growth_mindset: number;
+      resilience: number;
+      strategic_thinking: number;
+    };
+    summary: string;
+    key_strengths: string[];
+    areas_for_improvement: string[];
+    recommendations: string[];
+    career_suggestions: string[];
+  } | null;
 }
 
 export interface SWOTAnswer {
   id: number;
   question: SWOTQuestion;
-  answer: string;
+  answer_text: string;
 }
 
 export interface StudentMessage {
@@ -219,6 +239,107 @@ export const api = {
     const response = await this.get('/api/swot/analyses/');
     if (!response.ok) {
       throw new Error('Failed to get SWOT submissions');
+    }
+    return response.json();
+  },
+
+  async getMySWOTAnalyses() {
+    const response = await this.get('/api/swot/analyses/');
+    if (!response.ok) {
+      throw new Error('Failed to get SWOT analyses');
+    }
+    return response.json();
+  },
+
+  async getAllSWOTAnalyses() {
+    const response = await this.get('/api/swot/analyses/');
+    if (!response.ok) {
+      throw new Error('Failed to get all SWOT analyses');
+    }
+    return response.json();
+  },
+
+  async triggerSWOTAnalysis(analysisId: number) {
+    const response = await this.post(`/api/swot/analyses/${analysisId}/analyze/`);
+    if (!response.ok) {
+      throw new Error('Failed to trigger AI analysis');
+    }
+    return response.json();
+  },
+
+  // Exam methods
+  async getExams() {
+    const response = await this.get('/api/exams/');
+    if (!response.ok) {
+      throw new Error('Failed to get exams');
+    }
+    return response.json();
+  },
+
+  async getStudentExams() {
+    const response = await this.get('/api/student-exams/');
+    if (!response.ok) {
+      throw new Error('Failed to get student exams');
+    }
+    return response.json();
+  },
+
+  async createExam(examData: any) {
+    const response = await this.post('/api/exams/', examData);
+    if (!response.ok) {
+      throw new Error('Failed to create exam');
+    }
+    return response.json();
+  },
+
+  async deleteExam(examId: number) {
+    const response = await this.delete(`/api/exams/${examId}/`);
+    if (!response.ok) {
+      throw new Error('Failed to delete exam');
+    }
+    return response.json();
+  },
+
+  async startExam(studentExamId: number) {
+    const response = await this.post(`/api/student-exams/${studentExamId}/start_exam/`);
+    if (!response.ok) {
+      throw new Error('Failed to start exam');
+    }
+    return response.json();
+  },
+
+  async submitAnswer(studentExamId: number, questionId: number, answer: any) {
+    const response = await this.post(`/api/student-exams/${studentExamId}/submit_answer/`, {
+      question_id: questionId,
+      answer,
+    });
+    if (!response.ok) {
+      throw new Error('Failed to submit answer');
+    }
+    return response.json();
+  },
+
+  async submitExam(studentExamId: number) {
+    const response = await this.post(`/api/student-exams/${studentExamId}/submit_exam/`);
+    if (!response.ok) {
+      throw new Error('Failed to submit exam');
+    }
+    return response.json();
+  },
+
+  // Message methods
+  async sendMessage(title: string, message: string) {
+    const response = await this.post('/api/messages/', { title, message });
+    if (!response.ok) {
+      throw new Error('Failed to send message');
+    }
+    return response.json();
+  },
+
+  async getMessages() {
+    const response = await this.get('/api/messages/');
+    if (!response.ok) {
+      throw new Error('Failed to get messages');
     }
     return response.json();
   },

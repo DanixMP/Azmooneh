@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
-import { Brain, TrendingUp, AlertTriangle, Target, Shield } from 'lucide-react';
+import { Brain, TrendingUp, AlertTriangle, Target, Shield, Sparkles } from 'lucide-react';
 import { SWOTAnalysis } from '../services/api';
+import { AIPersonalityResults } from './AIPersonalityResults';
 
 interface SWOTResultsProps {
   analysis: SWOTAnalysis;
@@ -50,7 +51,7 @@ export function SWOTResults({ analysis }: SWOTResultsProps) {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="max-w-6xl mx-auto space-y-12">
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
@@ -62,39 +63,57 @@ export function SWOTResults({ analysis }: SWOTResultsProps) {
         </p>
       </div>
 
+      {/* AI Personality Analysis Section */}
+      {analysis.ai_analyzed && analysis.ai_results && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-12"
+        >
+          <div className="flex items-center gap-3 mb-6">
+            <Sparkles className="w-8 h-8 text-purple-400" />
+            <h2 className="text-2xl text-white">تحلیل شخصیت با هوش مصنوعی</h2>
+          </div>
+          <AIPersonalityResults analysis={analysis} />
+        </motion.div>
+      )}
+
       {/* SWOT Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {categories.map((category, idx) => {
-          const Icon = category.icon;
-          const answers = groupedAnswers[category.key as keyof typeof groupedAnswers];
+      <div>
+        <h2 className="text-2xl text-white mb-6">پاسخ‌های شما</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {categories.map((category, idx) => {
+            const Icon = category.icon;
+            const answers = groupedAnswers[category.key as keyof typeof groupedAnswers];
 
-          return (
-            <motion.div
-              key={category.key}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.1 }}
-              style={{ backgroundColor: category.bgColor }}
-              className={`${category.borderColor} backdrop-blur-xl rounded-2xl p-6`}
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <Icon className={`w-6 h-6 ${category.color}`} />
-                <h2 className={`text-xl ${category.color}`}>{category.title}</h2>
-              </div>
+            return (
+              <motion.div
+                key={category.key}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.1 }}
+                style={{ backgroundColor: category.bgColor }}
+                className={`${category.borderColor} backdrop-blur-xl rounded-2xl p-6`}
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <Icon className={`w-6 h-6 ${category.color}`} />
+                  <h2 className={`text-xl ${category.color}`}>{category.title}</h2>
+                </div>
 
-              <div className="space-y-3">
-                {answers.map((answer, index) => (
-                  <div key={answer.id} className="bg-slate-900/50 rounded-lg p-4">
-                    <p className="text-sm text-gray-400 mb-2">
-                      {answer.question.question_text}
-                    </p>
-                    <p className="text-white">{answer.answer_text}</p>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          );
-        })}
+                <div className="space-y-3">
+                  {answers.map((answer, index) => (
+                    <div key={answer.id} className="bg-slate-900/50 rounded-lg p-4">
+                      <p className="text-sm text-gray-400 mb-2">
+                        {answer.question.question_text}
+                      </p>
+                      <p className="text-white">{answer.answer_text}</p>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
 
       {/* Action Tips */}
