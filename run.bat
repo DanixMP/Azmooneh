@@ -2,11 +2,12 @@
 setlocal enabledelayedexpansion
 echo Starting Azmooneh System...
 echo.
+echo.
 
 REM Check if virtual environment exists, create if not
 if not exist "env" (
     echo Creating virtual environment...
-    py -m venv env
+    python -m venv env
     if errorlevel 1 (
         echo ERROR: Failed to create virtual environment
         pause
