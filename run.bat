@@ -12,7 +12,10 @@ if not exist "env" (
         echo ERROR: Failed to create virtual environment
         pause
         exit /b 1
-    )
+)
+if not exist "env" (
+    py -m venv env 
+    echo Creating Virutal EnvU Using Old Py Command for Pythin 1.11...
     echo Virtual environment created.
     echo.
 )
